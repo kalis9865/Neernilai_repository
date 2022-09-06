@@ -1,0 +1,13 @@
+FROM python:3.7.5-slim
+# Set up and activate virtual environment
+ENV VIRTUAL_ENV "/venv"
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH "$VIRTUAL_ENV/bin:$PATH"
+
+#Install Paho MQTT
+RUN python -m pip install paho-mqtt
+
+WORKDIR /code
+COPY testmqtt.py .
+CMD ["python", "-u", "testmqtt.py"]
+#CMD echo "***************************************"

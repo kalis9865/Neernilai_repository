@@ -1,0 +1,23 @@
+version: "3"
+services:
+    db:
+        image: timescale/timescaledb:latest-pg12
+        environment:
+            POSTGRES_PASSWORD: "admin@123"
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    createdb:
+        build: createdb/
+        command: python3 ./createdb.py
+
+        ports:
+            - 1234:1234
+        depends_on:
+            - db
+
+volumes:
+    db-data:
+        driver: local

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Export | Live View {% endblock %}
+{% block pagestyle %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/datetime/jquery.datetimepicker.css' %}" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.rawgit.com/JDMcKinstry/JavaScriptDateFormat/master/Date.format.min.js"></script>
+{% endblock %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Export</h1>
+  </div>
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Export Location Data</h6>
+    </div>
+    <div class="card-body">
+      <form class="export mx-auto">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-4 text-right text-gray-900 my-auto">
+              Location Name
+            </div>
+            <div class="dropdown col-lg-8">
+              <select class="form-select form-control" id="selectExportDevice" aria-label="Default select example">
+                <!--<option value="2">Device-Two</option>
+                        <option value="3">Device-Three</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-4 text-right text-gray-900 my-auto">
+              Location Sensors
+            </div>
+            <div class="dropdown col-lg-8" id="selectSensorsContainer">
+              <select class="form-select form-control" id="selectExportSensors" multiple aria-label="Default select example">
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-4 text-right text-gray-900 my-auto">
+              Start Date and Time
+            </div>
+            <div class="col-lg-8">
+              <input id="startDate" type="text" value="" class="showpicker form-control" id="datetimepicker" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-4 text-right text-gray-900 my-auto">
+              End Date and Time
+            </div>
+            <div class="col-lg-8">
+              <input id="endDate" type="text" value="" class="showpicker form-control" id="datetimepicker2" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-4 text-right text-gray-900 my-auto">
+            </div>
+            <div class="dropdown col-lg-12 text-right">
+              <a href="#" id="resetExport" class="btn btn-secondary btn-user">
+                Reset
+              </a>
+              <a href="#" id="startExportPDF" class="btn btn-primary btn-user">
+                Export as PDF
+              </a>
+              <a href="#" id="startExportCSV" class="btn btn-primary btn-user">
+                Export as CSV
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div id="errorMessage" class="text-center mt-2 mx-auto text-danger">
+
+      </div>
+      <div id="exportMsgBottom"></div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/datetime/jquery.js' %}"></script>
+<script src="{% static 'js/datetime/php-date-formatter.min.js' %}"></script>
+<script src="{% static 'js/datetime/jquery.mousewheel.js' %}"></script>
+<script src="{% static 'js/datetime/jquery.datetimepicker.js' %}"></script>
+<script src="{% static 'js/jquery.multi-select.js' %}"></script>
+<script type="text/javascript">
+  $(window).on('load', function() {
+    pdfTimerFunc();
+    csvTimerFunc();
+    idle();
+  });
+  $(document).ready(function() {
+    // $('.js-example-basic-multiple').select2();
+    $("#nav-export").addClass("active"); // Active Menu
+    getExportDevice();
+    $("#Role").html(sessionStorage.getItem("user_name"));
+    $("#startDate, #endDate").datetimepicker({
+      maxDate: new Date().format('Y/m/d H:i:s'),
+      format: 'Y/m/d H:i:s'
+    });
+    $("#endDate").change(function() {
+      var startDate = new Date(document.getElementById("startDate").value);
+      var endDate = new Date(document.getElementById("endDate").value);
+
+      var timeDiff = endDate.getTime() - startDate.getTime();
+      var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+      if (daysDiff > 30) {
+        var msg = "End Date not more than 30 days from Start Date";
+        flash.error(msg);
+        document.getElementById("endDate").value = "";
+      }
+      if ((Date.parse(endDate) < Date.parse(startDate))) {
+        var msg = "End date should be greater than Start date";
+        flash.error(msg)
+        document.getElementById("endDate").value = "";
+      }
+    });
+
+  });
+</script>
+{% endblock %}

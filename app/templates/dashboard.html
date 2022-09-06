@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Dashboard | Live View {% endblock %}
+
+{% block pagestyle %}
+  <!-- Industrial -->
+  <link rel="stylesheet" href="{% static 'css/industrial/industrial.css' %}">
+  <link rel="stylesheet" href="{% static 'css/industrial/introjs.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/industrial/foundation.css' %}">
+  <style media="screen">
+    body {
+      font-family : "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Neernilai Kankanippu Maiyam</h1>
+    <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+
+    <div class="col-lg-2 p-0 m-0 text-right">
+      <div class="dropdown">
+        <select id="selectDashboard" class="form-select form-control btn-primary" aria-label="Default select example">
+          <option value="0">Select Dashboard</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- Grid Stack START-->
+  <div id="gridCont">
+    <div class="grid-stack"></div>
+  </div>
+
+  <!-- Grid Stack END-->
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<!-- Paho Mqtt -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'js/grid_stack_actions.js' %}"></script>
+<!-- Page level custom scripts -->
+<!-- <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+<script src="{% static 'js/demo/chart-bar-demo.js' %}"></script> -->
+
+<!-- GridStack -->
+<script type="text/javascript">
+  var grid = GridStack.init();
+  /*grid.addWidget({
+    w: 3,
+    content: 'hello'
+  });*/
+  /*grid.on('resize', function(e, items) {
+
+    let width = parseInt(items.getAttribute('gs-h')) || 0;
+    if (items.getAttribute('id') == "tempguage") {
+      $(".guage1").removeClass("one");
+      $(".guage1").removeClass("two");
+      $(".guage1").removeClass("three");
+      $(".guage1").removeClass("four");
+      $(".guage1").removeClass("five");
+      switch (width) {
+        case 1:
+        case 2:
+          $(".guage1").addClass("one");
+          break;
+        case 3:
+          $(".guage1").addClass("one");
+          break;
+          break;
+        case 4:
+          $(".guage1").addClass("two");
+          break;
+          break;
+        case 5:
+          $(".guage1").addClass("two");
+          break;
+        default:
+          $(".guage1").addClass("three");
+      }
+    } else if (items.getAttribute('id') == "co2guage") {
+      $(".tank1").removeClass("one");
+      $(".tank1").removeClass("two");
+      $(".tank1").removeClass("three");
+      $(".tank1").removeClass("four");
+      $(".tank1").removeClass("five");
+      switch (width) {
+        case 1:
+        case 2:
+          $(".tank1").addClass("one");
+          break;
+        case 3:
+          $(".tank1").addClass("one");
+          break;
+          break;
+        case 4:
+          $(".tank1").addClass("two");
+          break;
+          break;
+        case 5:
+          $(".tank1").addClass("three");
+          break;
+        default:
+          $(".tank").addClass("four");
+      }
+    } else if (items.getAttribute('id') == "pressure") {
+      $(".gpressure").removeClass("one");
+      $(".gpressure").removeClass("two");
+      $(".gpressure").removeClass("three");
+      $(".gpressure").removeClass("four");
+      $(".gpressure").removeClass("five");
+      switch (width) {
+        case 1:
+        case 2:
+          $(".gpressure").addClass("one");
+          break;
+        case 3:
+          $(".gpressure").addClass("one");
+          break;
+          break;
+        case 4:
+          $(".gpressure").addClass("two");
+          break;
+          break;
+        case 5:
+          $(".gpressure").addClass("three");
+          break;
+        default:
+          $(".gpressure").addClass("four");
+      }
+    }
+  });*/
+</script>
+
+<script src="{% static 'js/industrial/industrial.js' %}"></script>
+<!-- <script src="{% static 'js/industrial/app.js' %}"></script> -->
+<script src="{% static 'js/industrial/intro.min.js' %}"></script>
+
+<script src="{% static 'js/viewiot_dashboard.js' %}"></script>
+
+<script>
+  $(window).on('load', function() {
+    pdfTimerFunc();
+    csvTimerFunc();
+    idle();
+  });
+  $(document).ready(function() {
+    $("#nav-dashboard").addClass("active"); // Active Menu
+    $("#download").hide();
+    getDashboards();
+    MQTTconnect();
+    $("#Role").html(sessionStorage.getItem("user_name"));
+  });
+</script>
+{% endblock %}

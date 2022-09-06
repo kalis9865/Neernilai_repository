@@ -1,0 +1,87 @@
+version: '3.3'
+
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY=viewiotdemo
+        #- ALLOWED_HOSTS=${EXTERNAL_IP}
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+
+  db:
+    restart: always
+    image: timescale/timescaledb:latest-pg12
+    container_name: timescaledb
+    environment:
+      POSTGRES_PASSWORD: "admin@123"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  mosquitto:
+    restart: always
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "9001"
+      - "1883"
+    ports:
+      - "9001:9001"
+      - "1883:1883"
+    networks:
+      - default
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  createdb:
+    build: ./createdb
+    command: python3 ./createdb.py
+    depends_on:
+      - db
+
+  mqtt_pub:
+    restart: always
+    build: ./publisher
+    image: publisher
+    depends_on:
+      - mosquitto
+      - db
+  
+  mqtt_sub:
+    restart: always
+    build: ./subscriber
+    image: subscriber
+    depends_on:
+      - mosquitto
+      - db
+
+  health_status:
+    restart: always
+    build: ./health
+    image: status
+    depends_on:
+      - mosquitto
+      - db
+
+volumes:
+  static_data:
+  db-data:
+    driver: local

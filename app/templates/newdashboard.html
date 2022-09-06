@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Waterbody | Live View {% endblock %}
+
+{% block pagestyle %}
+<!-- Industrial -->
+<link rel="stylesheet" href="{% static 'css/industrial/industrial.css' %}">
+<link rel="stylesheet" href="{% static 'css/industrial/introjs.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/industrial/foundation.css' %}">
+<style media="screen">
+  .grid-stack {
+    background-color: #f8f9fc !important;
+    min-height: 200px;
+    border-radius: .35rem;
+  }
+
+  .row {
+    max-width: unset
+  }
+</style>
+{% endblock %}
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Add Waterbody</h1>
+    <div class="text-right">
+      <a href="{% url 'createdashboard' %}" class="btn btn-secondary">
+        <span class="text">Back</span>
+      </a>
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">New Waterbody</h6>
+    </div>
+    <div class="card-body">
+      <div class="row text-center mx-auto">
+        <div class="col-lg-8 row">
+          <form class="createdashboard mx-auto">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-lg-6 row">
+                  <div class="col-lg-4 text-right text-gray-900 my-auto">
+                    Waterbody
+                  </div>
+                  <div class="col-lg-8">
+                    <input type="text" class="form-control form-control-user" id="inputDashboardName" aria-describedby="" placeholder="Waterbody Name...">
+                  </div>
+                </div>
+                <div class="col-lg-6 row">
+                  <div class="col-lg-4 text-right text-gray-900 my-auto">
+                    Location
+                  </div>
+                  <div class="col-lg-8">
+                    <select class="form-select form-control" id="selectDevice" aria-label="Default select example">
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-lg-6 row">
+                  <div class="col-lg-4 text-right text-gray-900 my-auto">
+                    Sensor
+                  </div>
+                  <div class="dropdown col-lg-8">
+                    <select class="form-select form-control" id="selectSensor" aria-label="Default select example">
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6 row">
+                  <div class="col-lg-3 text-right text-gray-900 my-auto">
+                    Widget
+                  </div>
+                  <div class="dropdown col-lg-8">
+                    <select class="form-select form-control" id="chartType" aria-label="Default select example">
+                    </select>
+                  </div>
+                  <div class="col-lg-1 text-gray-900 my-auto">
+                    <a href="#" id="addStack" class="btn btn-primary btn-circle">
+                      <i class="fas fa-plus"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- <div class="col-lg-1">
+                        </div> -->
+        <div class="col-lg-4 row trash my-auto m-0 p-5 text-danger">
+          <i class="fas fa-trash my-auto mx-auto text-danger">&nbsp; Drag a Widget here to Remove</i>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          Layout preview
+        </div>
+        <div class="col-lg-12 p-3" id="gridCont">
+          <div class="grid-stack"></div>
+        </div>
+        <div class="col-lg-12 p-3" style="display: none;" id="dummyContent"></div>
+      </div>
+      <div class="row text-right">
+        <div class="col-lg-12">
+          <span id="errorMessage" class="text-center mt-2 text-danger"></span>
+          <a href="#" id="compactLayout" title="Auto adjust the widgets placement" class="btn btn-info btn-user">
+            Compact Layout
+          </a>
+          <a href="#" id="createNewDashboard" class="btn btn-primary btn-user">
+            Save
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<!--<script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+<script src="{% static 'js/demo/chart-bar-demo.js' %}"></script> -->
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+<script src="{% static 'js/newdashboard.js' %}"></script>
+<script src="{% static 'js/grid_stack_actions.js' %}"></script>
+
+<script type="text/javascript">
+  $(window).on('load', function() {
+    pdfTimerFunc();
+    csvTimerFunc();
+    idle();
+  });
+  $(document).ready(function() {
+    // $("#nav-cdashboard").addClass("active"); // Active Menu
+    getAllDevices();
+    $("#Role").html(sessionStorage.getItem("role"));
+  });
+</script>
+{% endblock %}

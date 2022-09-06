@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Neernilai Kankanippu Maiyam</title>
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/mystyles.css' %}">
+</head>
+
+<body class="bg-gradient-primary">
+  <div class=""  style="min-height: 100vh; padding-left: 1.5rem;padding-right: 1.5rem;">
+    <div class="row justify-content-center" style="min-height: 100vh;">
+
+        <div class="col-xl-10 col-lg-12 col-md-9 p-5 my-auto">
+
+            <div class="card o-hidden border-0 shadow-lg my-3">
+                <div class="card-body p-0">
+
+                    <!-- Nested Row within Card Body -->
+                    <div class="row p-0 m-0">
+                        <div class="col-lg-6 d-none image_col d-lg-block p-0 m-0"></div>
+                        <div class="col-lg-6 my-auto p-0 m-0">
+                            <div class="p-5">
+                                <div class="text-center">
+								<img src="{% static 'img/mistral_logo.png' %}"/>
+                                    <h1 class="h4 text-primary font-weight-bold mt-4 mb-4">Neernilai Kankanippu Maiyam</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="inputEmail" aria-describedby="emailHelp"
+                                            placeholder="Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="inputPassword" placeholder="Password">
+                                    </div>
+                                    <div class="form-group" style="display:none">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <a id="login" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </a>
+                                </form>
+                                <div id="errorMessage" class="text-center mt-2 text-danger">
+
+                                </div>
+                                <div class="text-center mt-2">
+                                    <a id="loginForgotPsw" class="small" href="#">Forgot Password?</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="col-lg-12 text-right">
+			<a href="https://aws.amazon.com/what-is-cloud-computing"><img class="copyright_aws" src="https://d0.awsstatic.com/logos/powered-by-aws-white.png" alt="Powered by AWS Cloud Computing"></a>
+			</div>
+        </div>
+
+    </div>
+
+</div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+  <script src="{% static 'js/viewiot.js' %}"></script>
+</body>
+
+</html>

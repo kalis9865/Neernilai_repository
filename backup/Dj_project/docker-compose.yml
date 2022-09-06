@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  web:
+    build: ./web
+    volumes:
+      - web-static:/usr/src/app/static
+  nginx:
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - web-static:/www/static
+    depends_on:
+      - web
+
+volumes:
+  web-static:
