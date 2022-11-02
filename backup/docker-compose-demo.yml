@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+
+  web:
+    image: nginx
+    container_name: nginxserver
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www:/usr/share/nginx/html
+
+  # Other services
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - default
+    volumes:
+      - ./mosquitto/config:/mosquitto/config        
+
+  # Paho MQTT
+  mqttpub:
+    build: ./mqttpublisher
+    image: mqttpublisher
+    volumes: 
+      - ./mqttpublisher:/code
+    depends_on:
+      - mosquitto
+    environment:
+      - PYTHONUNBUFFERED=0    
+
+  mqttsub:
+    build: ./mqttsubscriber
+    image: mqttsubscriber
+    volumes:
+      - ./mqttsubscriber:/code
+    depends_on:
+      - mosquitto
+    environment:
+      - PYTHONUNBUFFERED=0        
+

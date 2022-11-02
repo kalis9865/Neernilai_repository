@@ -1,0 +1,29 @@
+
+version: '3'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - default
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+  
+  pub:
+    build: ./publisher
+    image: publisher
+    depends_on:
+      - mosquitto
+  sub:
+    build: ./subscriber
+    image: subscriber
+    depends_on:
+      - mosquitto

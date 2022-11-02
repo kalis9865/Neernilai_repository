@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Manage Waterbodies | Live View {% endblock %}
+
+{% block pagestyle %}
+<style media="screen">
+  .grid-stack {
+    background-color: #f8f9fc !important;
+    min-height: 200px;
+    border-radius: .35rem;
+  }
+
+  .row {
+    max-width: unset
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- End of Topbar -->
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Manage Waterbodies</h1>
+    <div class="text-right">
+      <!-- <button type="button" style="padding:0;border:0" data-toggle="modal" data-target="#myModal"> -->
+      <a href="{% url 'newdashboard' %}" class="btn btn-primary">
+        <span class="text">Add</span>
+      </a>
+      <!-- </button> -->
+    </div>
+  </div>
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">List of Waterbodies</h6>
+    </div>
+    <div class="card-body">
+      <!-- Delete Modal -->
+      <div id="deleteDashboard" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header card-header">
+              <h5 class="modal-title">Delete Waterbody</h5>
+              <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                Are you sure you want to delete <span class="display_val1 text-primary"></span> ?
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'createdashboard' %}" class="btn btn-secondary btn-user">
+                Cancel
+              </a>
+              <a href="#" id="deleteSelectedDashboard" data-dismiss="modal" class="btn btn-danger btn-user">
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dashboardsTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Waterbody ID</th>
+              <th>Waterbody Name</th>
+              <th>Edit</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <!-- <tfoot>
+                    <tr>
+                      <th>Dashboard ID</th>
+                      <th>Dashboard Name</th>
+                      <th>Edit</th>
+                      <th>Remove</th>
+                    </tr>
+                  </tfoot> -->
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- container-fluid -->
+{% endblock %}
+
+{% block scripts %}
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<!--<script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+<script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>-->
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+<!--<script src="{% static 'js/grid_stack_actions.js' %}"></script>-->
+
+<script type="text/javascript">
+  $(window).on('load', function() {
+    timerFunc();
+    idle();
+  });
+  $(document).ready(function() {
+    $("#nav-cdashboard").addClass("active"); // Active Menu
+    getDashboardsList();
+    $("#Role").html(sessionStorage.getItem("user_name"));
+  });
+</script>
+{% endblock %}

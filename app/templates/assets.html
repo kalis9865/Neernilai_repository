@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Locations | Live View {% endblock %}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Locations</h1>
+    <div class="text-right">
+		<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+		  <span class="text">Add</span>
+		</a>
+    </div>
+  </div>
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">List of Locations</h6>
+    </div>
+    <div class="card-body">
+
+      <!-- Add Modal -->
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header card-header">
+              <h5 class="modal-title">Add Location</h5>
+              <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="row text-center">
+                <form class="addasset mx-auto">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Name
+                      </div>
+                      <div class="col-lg-8">
+                        <input type="text" class="form-control form-control-user" id="inputAssetName" aria-describedby="emailHelp" placeholder="Location Name">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Reference No
+                      </div>
+                      <div class="col-lg-8">
+                        <input type="text" class="form-control form-control-user" id="inputAssetMac" aria-describedby="" placeholder="Reference Number">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Select Sensors
+                      </div>
+                      <div class="dropdown col-lg-8">
+                        <select multiple class="form-select form-control" id="selectSensors" aria-label="Default select example">
+
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        About Location
+                      </div>
+                      <div class="col-lg-8">
+                        <textarea class="form-control" id="inputDescription" rows="3" placeholder="About Location"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div id="errorMessage" class="text-center mt-2 mx-auto text-danger">
+
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'assets' %}" class="btn btn-secondary btn-user">
+                Cancel
+              </a>
+              <a href="#" id="addDevice" class="btn btn-primary btn-user">
+                Save
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header card-header">
+              <h5 class="modal-title">Edit Location</h5>
+              <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="row text-center">
+                <form class="addasset mx-auto">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Location ID
+                      </div>
+                      <div class="col-lg-8 text-left">
+                        <span id="deviceId">1</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Name
+                      </div>
+                      <div class="col-lg-8">
+                        <input type="text" class="form-control form-control-user" id="inputEditAssetName" aria-describedby="emailHelp" placeholder="Location Name">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Reference No
+                      </div>
+                      <div class="col-lg-8">
+                        <input type="text" class="form-control form-control-user" id="inputEditAssetMac" aria-describedby="" placeholder="Reference Number">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        Select Sensors
+                      </div>
+                      <div class="dropdown col-lg-8">
+                        <select multiple class="form-select form-control" id="selectEditSensor" aria-label="Default select example">
+                          <option value="Ambient-Light">Ambient Light</option>
+                          <option value="Co2">Co2</option>
+                          <option value="Level">Level Sensor</option>
+                          <option value="Pressure">Pressure</option>
+                          <option value="Temperature">Temperature</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
+                            <div class="row">
+                              <div class="col-lg-4 text-right text-gray-900 my-auto">
+                                Topic
+                              </div>
+                              <div class="col-lg-8">
+                                <input type="text" class="form-control form-control-user" id="inputEditTopic" placeholder="Topic">
+                              </div>
+                            </div>
+                          </div> -->
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-4 text-right text-gray-900 my-auto">
+                        About Location
+                      </div>
+                      <div class="col-lg-8">
+                        <textarea class="form-control" id="inputEditDescription" rows="3" placeholder="About Location"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div id="editErrorMessage" class="text-center mt-2 mx-auto text-danger">
+
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'assets' %}" class="btn btn-secondary btn-user">
+                Cancel
+              </a>
+              <a href="#" id="editDevice" class="btn btn-primary btn-user">
+                Save
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Modal -->
+      <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header card-header">
+              <h5 class="modal-title">Delete Location</h5>
+              <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                Are you sure you want to delete Location <span class="display_val text-primary"></span> ?
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'assets' %}" class="btn btn-secondary btn-user">
+                Cancel
+              </a>
+              <a href="#" id="deleteDevice" data-dismiss="modal" class="btn btn-danger btn-user">
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive-lg">
+        <table class="table table-bordered" id="assetsTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Location ID</th>
+              <th>Name</th>
+              <th>Reference No</th>
+              <th>Sensors</th>
+              <th>ON/OFF</th>
+              <th>Edit</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <!-- <tfoot>
+                    <tr>
+                      <th>Device ID</th>
+                      <th>Name</th>
+                      <th>Mac ID</th>
+                      <th>Sensors</th>
+                      <th>ON/OFF</th>
+                      <th>Edit</th>
+                      <th>Remove</th>
+                    </tr>
+                  </tfoot> -->
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Page level plugins -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'vendor/flash_notification/bootstrap-flash-alert.min.js' %}"></script>
+
+<script src="{% static 'js/jquery.multi-select.js' %}"></script>
+<script>
+  $(window).on('load', function() {
+    pdfTimerFunc();
+    csvTimerFunc();
+    idle();
+  });
+
+  $(document).ready(function() {
+    $("#nav-assets").addClass("active"); // Active Menu
+    getDevicesList();
+    $("#Role").html(sessionStorage.getItem("user_name"));
+    //$('#selectSensors').multiSelect();
+    //$('#selectEditSensor').multiSelect();
+  });
+</script>
+{% endblock %}

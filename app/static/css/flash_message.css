@@ -1,0 +1,46 @@
+.flash-messages {
+  position: absolute;
+  z-index: 10000;
+  left: 20px;
+  right: 20px;
+  top: 70px;
+  width: 45% !important;
+  margin: auto;
+}
+
+.flash-message {
+  position: relative;
+  padding: 15px 20px;
+  margin-left: 35px;
+  margin-top: -60px;
+  color: #fff;
+  border-radius: 5px
+}
+
+.flash-message.nonclosable .flash-message-close {
+  display: none
+}
+
+.flash-message-close {
+  float: right;
+  cursor: pointer;
+  color: #fff;
+}
+
+.flash-message.success {
+  background-color: #169b6b
+}
+
+.flash-message.info, .flash-message.notice {
+  background-color: #4e73df
+}
+
+.flash-message.danger, .flash-message.error {
+  background-color: #ea4335;
+  font-size: 1rem !important;
+  width: unset;
+}
+
+.flash-message.alert, .flash-message.warning {
+  background-color: #f6c23e
+}
