@@ -3,6 +3,7 @@ import collections
 import os
 from . import db_wrapper
 
+#dummy comment
 filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'db_config.ini')
 table_name = "device"
 
